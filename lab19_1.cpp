@@ -20,20 +20,63 @@ string toUpperStr(string x){
     return y;
 }
 
-void importDataFromFile(){
-
+void importDataFromFile(string filename,vector <string> &names,vector <int> &scores,vector <char> &grades){
+    ifstream file("name_score.txt");
+    string Text;
+    while(getline(file,Text)){
+        char format[] = "%[^:]: %d %d %d";
+        int a,b,c;
+        char name[50];
+        sscanf(Text.c_str(),format,name,&a,&b,&c);
+        names.push_back(name);
+        int total = a+b+c;
+        scores.push_back(total);
+        grades.push_back(score2grade(total));
+    }
 }
 
-void getCommand(){
-
+void getCommand(string &command , string &key){
+    cout << "Please input your command: ";
+    string text;
+    char format[] = "%s %[^\n]";
+    char a[100];
+    char b[100];
+    getline(cin,text);
+    sscanf(text.c_str(),format,a,b);
+    command = a;
+    key = b;
 }
 
-void searchName(){
-
+void searchName(vector <string> &names,vector <int> &scores,vector <char> &grades,string key){
+    int count = 0;
+    cout << "---------------------------------" << endl;
+    for(unsigned int i =0; i<names.size();i++){
+        string name = names[i];
+        if(key == toUpperStr(name)){
+            cout << names[i] << "'s" << " " << "score = " << scores[i] << endl;
+            cout << names[i] << "'s" << " " << "grade = " << grades[i] << endl;
+            count++;
+        }
+    }
+    if(count == 0){
+        cout << "Cannot found." << endl;
+    }
+    cout << "---------------------------------" << endl;
 }
 
-void searchGrade(){
-
+void searchGrade(vector <string> &names,vector <int> &scores,vector <char> &grades,string key){
+    int count = 0;
+    cout << "---------------------------------" << endl;
+    for(unsigned int i =0; i<names.size();i++){
+        if(key[0] == grades[i]){
+            cout << names[i] << " " << "(" << scores[i] << ")" << endl;
+            count++;
+        }
+    }
+    if(count == 0){
+        cout << "Cannot found." << endl;
+    }
+    cout << "---------------------------------" << endl;
 }
 
 
